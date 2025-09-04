@@ -1,20 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata: 
-  name: helm-app
+  name: auto-sync-app
   namespace: argocd
-spec: 
-  destination: 
-    namespace: helm-app
+spec:
+  destination:
+    namespace: auto-sync-app
     server: "https://kubernetes.default.svc"
   project: default
   source: 
-    path: helm-guestbook
+    path: guestbook-with-sub-directories
     repoURL: "https://github.com/ajayparmar311/argocd-git.git"
     targetRevision: main
-    helm:
-     releaseName: my-release
+    directory:
+      recurse: true
   syncPolicy:
+    automated: {}
     syncOptions:
       - CreateNamespace=true
 
